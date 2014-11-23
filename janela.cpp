@@ -43,15 +43,15 @@ Janela::Janela(QWidget *parent) :
 
     //Etiquetas
 
-    ui->slider_WR2->xU=1.0;
-    ui->slider_WR2->xL=0.01;
+    ui->slider_WR2->xU=10;
+    ui->slider_WR2->xL=0.1;
     connect(ui->slider_WR2,SIGNAL(doubleValueChanged(double)),ui->label_valor_WR2,SLOT(setNum(double)));
 
-    ui->slider_Vazao->xU=2;
+    ui->slider_Vazao->xU=1;
     ui->slider_Vazao->xL=0.1;
     connect(ui->slider_Vazao,SIGNAL(doubleValueChanged(double)),ui->label_valor_Q,SLOT(setNum(double)));
 
-    ui->slider_Tempo->xU=600;
+    ui->slider_Tempo->xU=3600;
     ui->slider_Tempo->xL=20;
     connect(ui->slider_Tempo,SIGNAL(doubleValueChanged(double)),ui->label_valor_Tempo,SLOT(setNum(double)));
 
@@ -119,7 +119,7 @@ void Janela::rodaSimulacao(){
         T=new Tubo(PVC(),L,7.7e-3,D);
     }
 
-    for(int i=0;i<20;i++){
+    for(int i=0;i<21;i++){
         //x.push_back(i*L/20);
         x.push_back(i);
     }
@@ -144,7 +144,7 @@ void Janela::rodaSimulacao(){
     z.push_back(677);
     z.push_back(703);
     z.push_back(698);
-//    z.push_back(711);
+    z.push_back(711);
 //    z.push_back(712);
 //    z.push_back(711);
 //    z.push_back(714);
@@ -156,12 +156,12 @@ void Janela::rodaSimulacao(){
     Reservatorio* Res = new Reservatorio(5);
 
     Malha<PontoHQ> M;
-    M.fazMalha(20);
+    M.fazMalha(21);
     M.setPerfil(z);
     M.setTubo(T);
 
     M.substituiPonto(Bom,0);
-    M.substituiPonto(Res,19);
+    M.substituiPonto(Res,20);
 
     if(this->dispositivo!=0){
         if(this->dispositivo==1){
@@ -193,9 +193,9 @@ void Janela::rodaSimulacao(){
 
     todasIteracoesQPoint=this->converteTodasIteracoes(x,todasIteracoes);
     this->ui->graphicsView->setTodosVetores(todasIteracoesQPoint);
-
-    this->ui->graphicsView->setEscala();
     this->ui->graphicsView->setPerfil(perfil);
+    this->ui->graphicsView->setEscala();
+
     this->ui->graphicsView->setVetorAtual();
 
 

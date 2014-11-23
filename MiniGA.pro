@@ -25,7 +25,6 @@ SOURCES += main.cpp\
     rho.cpp \
     tau.cpp \
     tubo.cpp \
-    valvula.cpp \
     valvuladeretencao.cpp \
     ventosa.cpp
 

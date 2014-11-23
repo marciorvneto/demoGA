@@ -42,14 +42,28 @@ void PlotArea::setEscala(){
         }
     }
 
+    for(int i=0;i<this->perfil.size();i++){
+       if(this->perfil.at(i).x()<xLi){
+           xLi=this->perfil.at(i).x();
+       }
+       if(this->perfil.at(i).x()>xUi){
+           xUi=this->perfil.at(i).x();
+       }
+       if(this->perfil.at(i).y()<yLi){
+           yLi=this->perfil.at(i).y();
+       }
+       if(this->perfil.at(i).y()>yUi){
+           yUi=this->perfil.at(i).y();
+       }
+    }
 
     this->dX = niceTicks(xLi,xUi,6);
-    this->xL = dX*round(xLi/dX);
-    this->xU = dX*round(1+xUi/dX);
+    this->xL = dX*floor(xLi/dX);
+    this->xU = dX*round(xUi/dX);
 
     this->dY = niceTicks(yLi,yUi,6);
-    this->yL = dY*round(yLi/dY);
-    this->yU = dY*round(1+yUi/dY);
+    this->yL = dY*floor(yLi/dY);
+    this->yU = dY*round(yUi/dY);
 }
 
 void PlotArea::setTodosVetores(std::vector<std::vector<QPoint> > todosVetores){
@@ -101,6 +115,15 @@ QPointF traduzPonto(QPointF P, QPointF O,double pixelsX,double pixelsY,double xL
     return QPointF(O.x()+(P.x()-xL)*fatorX,O.y()-(P.y()-yL)*fatorY);
 }
 
+void drawRotatedText(QPainter *painter, float degrees, int x, int y, const QString &text)
+  {
+    painter->save();
+    painter->translate(x, y);
+    painter->rotate(degrees);
+    painter->drawText(0, 0, text);
+    painter->restore();
+  }
+
 
 void PlotArea::paintEvent(QPaintEvent *event){
 
@@ -128,7 +151,7 @@ void PlotArea::paintEvent(QPaintEvent *event){
     QPointF etiquetaHorizontal;
     QPointF etiquetaVertical;
     QPointF legendaX(folgaX_E+tamanhoAreaX/2,tamanhoJanelaY-10);
-    QPointF legendaY(0,folgaY_C+tamanhoAreaY/2);
+    QPointF legendaY(0,folgaY_C+(tamanhoAreaY+folgaY_C+folgaY_B)/2);
 
 
     QPainter Painter(this->viewport());
@@ -220,9 +243,9 @@ void PlotArea::paintEvent(QPaintEvent *event){
     }
     Painter.save();
     retanguloLegendaX.setCoords(legendaX.x()-tamanhoAreaX/2,legendaX.y()-tamanhoAreaY/2,legendaX.x()+tamanhoAreaX/2,legendaX.y()+tamanhoAreaY/2);
-    desenhaEtiqueta(&Painter,legendaX,"Comprimento (m)",retanguloLegendaX);
+    desenhaEtiqueta(&Painter,legendaX,"Pontos do trecho",retanguloLegendaX);
     retanguloLegendaY.setCoords(legendaY.x()-tamanhoAreaX/2,legendaY.y()-tamanhoAreaY/2,legendaY.x()+tamanhoAreaX/2,legendaY.y()+tamanhoAreaY/2);
-    desenhaEtiquetaVertical(&Painter,legendaY,"Comprimento (m)",retanguloLegendaY);
+    drawRotatedText(&Painter,-90,legendaY.x()+20,legendaY.y(),"Linha piezométrica (m)");
     Painter.drawEllipse(origem,10,10);
 
     //Pontos do grafico
