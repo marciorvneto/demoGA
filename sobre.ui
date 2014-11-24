@@ -25,8 +25,8 @@
    <string>Dialog</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>../../../Desktop/Icone.png</normaloff>../../../Desktop/Icone.png</iconset>
+   <iconset resource="imagens.qrc">
+    <normaloff>:/new/prefix1/Icone.png</normaloff>:/new/prefix1/Icone.png</iconset>
   </property>
   <widget class="QWidget" name="">
    <property name="geometry">
@@ -44,7 +44,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../../Desktop/BLOOM - Marca Horizontal2.png</pixmap>
+       <pixmap resource="imagens.qrc">:/new/prefix1/bloom.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -90,6 +90,8 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="imagens.qrc"/>
+ </resources>
  <connections/>
 </ui>

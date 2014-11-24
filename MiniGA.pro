@@ -53,3 +53,11 @@ HEADERS  += janela.h \
 
 FORMS    += janela.ui \
     sobre.ui
+
+OTHER_FILES += \
+    ../../../Desktop/Icone.png \
+    ../../../Desktop/BLOOM - Marca Horizontal2.png \
+    ../../../Desktop/bloom.png
+
+RESOURCES += \
+    imagens.qrc
