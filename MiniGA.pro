@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     tau.cpp \
     tubo.cpp \
     valvuladeretencao.cpp \
-    ventosa.cpp
+    ventosa.cpp \
+    sobre.cpp
 
 HEADERS  += janela.h \
     plotarea.h \
@@ -46,7 +47,9 @@ HEADERS  += janela.h \
     tubo.hpp \
     valvula.hpp \
     valvuladeretencao.hpp \
-    ventosa.hpp
+    ventosa.hpp \
+    sobre.h
 
 
-FORMS    += janela.ui
+FORMS    += janela.ui \
+    sobre.ui

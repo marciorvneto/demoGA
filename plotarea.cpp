@@ -4,6 +4,7 @@ PlotArea::PlotArea(QWidget *parent) :
     QGraphicsView(parent)    
 {
     this->contador=0;
+    this->desenhaEnvoltorias=false;
 }
 
 void PlotArea::novoVetorEDesenha(){
@@ -11,7 +12,41 @@ void PlotArea::novoVetorEDesenha(){
         this->vetorAtual=todosVetores.at(contador);
         this->contador++;
         update();
+    }else{
+        this->desenhaEnvoltorias=true;
+        update();
+        //this->desenhaEnvoltorias=false;
     }
+
+}
+
+void PlotArea::desenharEnvoltorias(){
+    this->desenhaEnvoltorias=true;
+    update();
+    this->desenhaEnvoltorias=false;
+}
+
+void PlotArea::envoltorias(std::vector<double> x){
+    std::vector<QPoint> maximas;
+    std::vector<QPoint> minimas;
+    double minima;
+    double maxima;
+    for(int j=0;j<this->todosVetores.at(0).size();j++){
+        minima=this->todosVetores.at(0).at(j).y();
+        maxima=this->todosVetores.at(0).at(j).y();
+        for(int i=0;i<this->todosVetores.size();i++){
+            if(this->todosVetores.at(i).at(j).y()<minima){
+                minima=todosVetores.at(i).at(j).y();
+            }
+            if(this->todosVetores.at(i).at(j).y()>maxima){
+                maxima=todosVetores.at(i).at(j).y();
+            }
+        }
+        maximas.push_back(QPoint(x.at(j),maxima));
+        minimas.push_back(QPoint(x.at(j),minima));
+    }
+    this->envoltoriaMax=maximas;
+    this->envoltoriaMin=minimas;
 
 }
 
@@ -63,7 +98,7 @@ void PlotArea::setEscala(){
 
     this->dY = niceTicks(yLi,yUi,6);
     this->yL = dY*floor(yLi/dY);
-    this->yU = dY*round(yUi/dY);
+    this->yU = dY*round(1+yUi/dY);
 }
 
 void PlotArea::setTodosVetores(std::vector<std::vector<QPoint> > todosVetores){
@@ -160,6 +195,8 @@ void PlotArea::paintEvent(QPaintEvent *event){
     canetaCinza.setStyle(Qt::DotLine);
     QPen canetaPreta(Qt::black);
     QPen canetaAzul(Qt::blue);
+    QPen canetaVermelha(Qt::red);
+
 
     Painter.setPen(canetaPreta);
 
@@ -246,7 +283,7 @@ void PlotArea::paintEvent(QPaintEvent *event){
     desenhaEtiqueta(&Painter,legendaX,"Pontos do trecho",retanguloLegendaX);
     retanguloLegendaY.setCoords(legendaY.x()-tamanhoAreaX/2,legendaY.y()-tamanhoAreaY/2,legendaY.x()+tamanhoAreaX/2,legendaY.y()+tamanhoAreaY/2);
     drawRotatedText(&Painter,-90,legendaY.x()+20,legendaY.y(),"Linha piezométrica (m)");
-    Painter.drawEllipse(origem,10,10);
+    //Painter.drawEllipse(origem,10,10);
 
     //Pontos do grafico
 
@@ -256,25 +293,64 @@ void PlotArea::paintEvent(QPaintEvent *event){
     double rangeX = xU-xL;
     double rangeY = yU-yL;
 
-    Painter.setPen(canetaAzul);
+    if(! this->desenhaEnvoltorias){
 
-    for(int i=1;i<this->vetorAtual.size();i++){
-        P1 = traduzPonto(this->vetorAtual.at(i-1),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
-        if(i>0){
-            P2 = traduzPonto(this->vetorAtual.at(i),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+
+        Painter.setPen(canetaAzul);
+
+        for(int i=1;i<this->vetorAtual.size();i++){
+            P1 = traduzPonto(this->vetorAtual.at(i-1),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            if(i>0){
+                P2 = traduzPonto(this->vetorAtual.at(i),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            }
+            Painter.drawLine(P1,P2);
         }
-        Painter.drawLine(P1,P2);
+
+
+        Painter.setPen(canetaPreta);
+
+        for(int i=1;i<this->vetorAtual.size();i++){
+            P1 = traduzPonto(this->perfil.at(i-1),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            if(i>0){
+                P2 = traduzPonto(this->perfil.at(i),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            }
+            Painter.drawLine(P1,P2);
+        }
+
+    }else{
+
+        Painter.setPen(canetaAzul);
+
+        for(int i=1;i<this->envoltoriaMax.size();i++){
+            P1 = traduzPonto(this->envoltoriaMax.at(i-1),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            if(i>0){
+                P2 = traduzPonto(this->envoltoriaMax.at(i),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            }
+            Painter.drawLine(P1,P2);
+        }
+
+        Painter.setPen(canetaVermelha);
+
+        for(int i=1;i<this->envoltoriaMin.size();i++){
+            P1 = traduzPonto(this->envoltoriaMin.at(i-1),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            if(i>0){
+                P2 = traduzPonto(this->envoltoriaMin.at(i),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            }
+            Painter.drawLine(P1,P2);
+        }
+
+        Painter.setPen(canetaPreta);
+
+        for(int i=1;i<this->vetorAtual.size();i++){
+            P1 = traduzPonto(this->perfil.at(i-1),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            if(i>0){
+                P2 = traduzPonto(this->perfil.at(i),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
+            }
+            Painter.drawLine(P1,P2);
+        }
+
     }
 
-    Painter.setPen(canetaPreta);
-
-    for(int i=1;i<this->vetorAtual.size();i++){
-        P1 = traduzPonto(this->perfil.at(i-1),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
-        if(i>0){
-            P2 = traduzPonto(this->perfil.at(i),origem,tamanhoAreaX,tamanhoAreaY,xL,yL,rangeX,rangeY);
-        }
-        Painter.drawLine(P1,P2);
-    }
 
 
 }

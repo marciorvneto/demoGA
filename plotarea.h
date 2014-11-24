@@ -18,6 +18,8 @@ private:
     std::vector<std::vector<QPoint> > todosVetores;
     std::vector<QPoint> vetorAtual;
     std::vector<QPoint> perfil;
+    std::vector<QPoint> envoltoriaMax;
+    std::vector<QPoint> envoltoriaMin;
     int contador;
 public:
     explicit PlotArea(QWidget *parent = 0);
@@ -26,12 +28,15 @@ public:
     void proximoVetor();
     void setPerfil(std::vector<QPoint>);
     void setEscala();
+    void envoltorias(std::vector<double>);
     double niceTicks(double xL, double xU, int N);
+    bool desenhaEnvoltorias;
 
 signals:
 
 public slots:
     void novoVetorEDesenha();
+    void desenharEnvoltorias();
 
 protected:
     void paintEvent(QPaintEvent *event);

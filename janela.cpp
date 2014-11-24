@@ -15,6 +15,8 @@
 #include "bomba.cpp"
 #include "reservatorio.cpp"
 
+#include "sobre.h"
+
 Janela::Janela(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Janela)
@@ -41,6 +43,8 @@ Janela::Janela(QWidget *parent) :
     connect(ui->pushButton_Rodar,SIGNAL(clicked()),this,SLOT(rodaSimulacao()));
     connect(ui->pushButton_Parar,SIGNAL(clicked()),this,SLOT(paraSimulacao()));
 
+
+    connect(this->ui->actionSobre,SIGNAL(triggered()),this,SLOT(abreAjuda()));
     //Etiquetas
 
     ui->slider_WR2->xU=10;
@@ -76,7 +80,7 @@ Janela::Janela(QWidget *parent) :
     this->atualizaParametros();
 
     vetor.push_back(QPoint(0,0));
-    vetor.push_back(QPoint(12000,0));
+    vetor.push_back(QPoint(20,0));
 
     todosVetores.push_back(vetor);
     this->ui->graphicsView->setTodosVetores(todosVetores);
@@ -85,6 +89,11 @@ Janela::Janela(QWidget *parent) :
     this->ui->graphicsView->setEscala();
     this->ui->graphicsView->setPerfil(vetor);
 
+}
+
+void Janela::abreAjuda(){
+    Sobre* S=new Sobre(this);
+    S->exec();
 }
 
 void Janela::atualizaParametros(){
@@ -100,7 +109,8 @@ void Janela::rodaSimulacao(){
     int Niter;
     double D=0.6;
     double L=12000;
-
+    timer->stop();
+    this->ui->graphicsView->desenhaEnvoltorias=false;
     std::vector<double> x;
     std::vector<double> z;
     std::vector<std::vector<double> > todasIteracoes;
@@ -195,6 +205,7 @@ void Janela::rodaSimulacao(){
     this->ui->graphicsView->setTodosVetores(todasIteracoesQPoint);
     this->ui->graphicsView->setPerfil(perfil);
     this->ui->graphicsView->setEscala();
+    this->ui->graphicsView->envoltorias(x);
 
     this->ui->graphicsView->setVetorAtual();
 
@@ -211,11 +222,12 @@ void Janela::rodaSimulacao(){
 
     }*/
     timer->start();
-
+    //QTimer::singleShot(100,this->ui->graphicsView,SLOT(desenharEnvoltorias()));
 }
 
 void Janela::paraSimulacao(){
     timer->stop();
+    this->ui->graphicsView->desenhaEnvoltorias=false;
 }
 
 std::vector<QPoint> Janela::converteDoubleQPoint(std::vector<double> x,std::vector<double> y){

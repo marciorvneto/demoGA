@@ -16,8 +16,17 @@
     <height>450</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>Golpe de Ariete</string>
+   <string>Golpe de Ariete - DEMO</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../../Desktop/Icone.png</normaloff>../../../Desktop/Icone.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -64,42 +73,34 @@
        <string>Controles</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="3">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>10</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="1">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>10</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="2">
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QLabel" name="label_Tempo">
+       <item row="0" column="4" colspan="2">
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="0">
+          <widget class="QComboBox" name="comboBox_Material">
+           <item>
+            <property name="text">
+             <string>Aço</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Ferro fundido</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Ferro dúctil</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>PVC</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_Material">
            <property name="font">
             <font>
              <weight>75</weight>
@@ -107,33 +108,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Tempo de simulação (s)</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="DoubleSlider" name="slider_Tempo">
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>101</number>
-           </property>
-           <property name="value">
-            <number>50</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_valor_Tempo">
-           <property name="text">
-            <string>200</string>
+            <string>Material da tubulação</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -141,6 +116,19 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="2" column="5">
+        <widget class="QPushButton" name="pushButton_Parar">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Parar</string>
+         </property>
+        </widget>
        </item>
        <item row="0" column="2">
         <layout class="QFormLayout" name="formLayout">
@@ -216,13 +204,26 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="2">
-        <spacer name="verticalSpacer">
+       <item row="0" column="3">
+        <spacer name="horizontalSpacer_2">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeType">
           <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="4">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -344,19 +345,6 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="4">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>10</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="2" column="4">
         <widget class="QPushButton" name="pushButton_Rodar">
          <property name="sizePolicy">
@@ -370,47 +358,10 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="5">
-        <widget class="QPushButton" name="pushButton_Parar">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Parar</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="4" colspan="2">
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="1" column="0">
-          <widget class="QComboBox" name="comboBox_Material">
-           <item>
-            <property name="text">
-             <string>Aço</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Ferro fundido</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Ferro dúctil</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>PVC</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_Material">
+       <item row="2" column="2">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QLabel" name="label_Tempo">
            <property name="font">
             <font>
              <weight>75</weight>
@@ -418,7 +369,33 @@
             </font>
            </property>
            <property name="text">
-            <string>Material da tubulação</string>
+            <string>Tempo de simulação (s)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="DoubleSlider" name="slider_Tempo">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>101</number>
+           </property>
+           <property name="value">
+            <number>50</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_valor_Tempo">
+           <property name="text">
+            <string>200</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -426,6 +403,38 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="1" column="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -438,9 +447,16 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuAjuda">
+    <property name="title">
+     <string>Ajuda</string>
+    </property>
+    <addaction name="actionSobre"/>
+   </widget>
+   <addaction name="menuAjuda"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -451,6 +467,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionSobre">
+   <property name="text">
+    <string>Sobre</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

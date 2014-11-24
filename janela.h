@@ -48,6 +48,7 @@ public slots:
     void atualizaParametros();
     void rodaSimulacao();
     void paraSimulacao();
+    void abreAjuda();
 
 };
 
